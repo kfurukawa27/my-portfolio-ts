@@ -1,36 +1,44 @@
-function mostrarValor(valor: string | number) {
-    if (typeof valor === "string") {
-        console.log(valor.toUpperCase());
-    } else {
-        console.log(valor.toFixed(2));
-    }
+// 1. Definindo o contrato (a interface)
+interface Pessoa {
+  nome: string;
+  idade: number;
+  email?: string; // Propriedade opcional com '?'
+  readonly id: number; // Propriedade somente leitura
 }
 
-mostrarValor("olá")
-mostrarValor(24)
+// 2. Usando a interface para tipar um objeto
+const usuario: Pessoa = {
+  id: 1,
+  nome: "Ana",
+  idade: 30,
+  email: "ana@email.com"
+};
 
-class Carro { 
-    dirigir() {
-        console.log("Dirigindo meu carro");
-    }
-}
-class Barco { 
-    navegar() {
-        console.log("Dirigindo meu barco");
-    }
-
+// 3. Usando em uma função
+function imprimirDetalhes(pessoa: Pessoa) {
+  console.log(`Nome: ${pessoa.nome}, Idade: ${pessoa.idade}`);
 }
 
-function mover(veiculo: Carro | Barco) {
-    if (veiculo instanceof Carro) {
-        veiculo.dirigir()
-    } else {
-        veiculo.navegar()
-    }
+imprimirDetalhes(usuario); // Funciona!
+
+// const usuarioInvalido: Pessoa = { nome: "Carlos" }; // Erro! Falta 'id' e 'idade'.
+
+// // Sem generics (usando 'any'), perdemos a segurança de tipos.
+// function primeiroElementoAny(arr: any[]): any {
+//   return arr[0];
+// }
+
+// const primeiroNome = primeiroElementoAny(["Alice", "Bob"]); // tipo 'any'
+// const primeiroNumero = primeiroElementoAny([1, 2, 3]); // tipo 'any'
+
+ // Com generics, mantemos a segurança de tipos!
+function primeiroElemento<T>(arr: T[]): T | undefined {
+  return arr[0];
 }
 
-const meuCarro = new Carro();
-const meuBarco = new Barco();
+// O TypeScript infere o tipo de T automaticamente:
+const primeiroNome = primeiroElemento(["Alice", "Bob"]); // tipo 'string'
+const primeiroNumero = primeiroElemento([10, 20, 30]);   // tipo 'number'
 
-mover(meuCarro);
-mover(meuBarco)
+console.log(primeiroNome?.toUpperCase())
+console.log(primeiroNumero?.toFixed(2));
