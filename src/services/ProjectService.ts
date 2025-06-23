@@ -19,6 +19,15 @@ export class ProjectService {
         return this.projectRepository.findAll();
     }
 
+        /**
+     * Obtém um projeto específico por ID.
+     * @param id O ID do projeto.
+     */
+    async getProjectById(id: string): Promise<Project | undefined> {
+        return this.projectRepository.findById(id);
+     }
+
+
     /**
      * Cria um novo projeto, aplicando validações ou lógicas de negócio;
      * @param projectData Os dados do novo projeto.
